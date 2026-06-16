@@ -1,0 +1,1403 @@
+/* ============================================================
+   style.css — Alexander Colás · Portafolio Personal
+   Autor: Alexander Colás
+   Última revisión: 2025
+   ============================================================ */
+
+/* ── VARIABLES GLOBALES ─────────────────────────────────────
+   Centraliza colores, radios y tipografías.
+   Editar aquí afecta todo el sitio de forma consistente.
+   ─────────────────────────────────────────────────────────── */
+:root {
+  /* Paleta principal */
+  --color-bg:         #020617;   /* slate-950 — fondo base */
+  --color-accent:     #22d3ee;   /* cyan-400  — acento primario */
+  --color-accent-rgb: 0, 194, 255;
+
+  /* Texto */
+  --color-text-primary:   #ffffff;
+  --color-text-secondary: #f1f5f9;
+  --color-text-muted:     #94a3b8;
+  --color-text-faint:     #64748b;
+  --color-text-footer:    #334155;
+
+  /* Superficies / bordes */
+  --color-surface:        rgba(255, 255, 255, 0.04);
+  --color-border:         rgba(255, 255, 255, 0.07);
+  --color-border-hover:   rgba(0, 194, 255, 0.35);
+  --color-surface-accent: rgba(0, 194, 255, 0.08);
+  --color-border-accent:  rgba(0, 194, 255, 0.2);
+
+  /* Tag / badge de acento */
+  --color-tag-bg:     rgba(0, 194, 255, 0.10);
+  --color-tag-border: rgba(0, 194, 255, 0.20);
+
+  /* Tipografías */
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  /* Radios de borde */
+  --radius-sm:   12px;
+  --radius-md:   14px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-pill: 999px;
+
+  /* Transición estándar */
+  --transition: 0.2s ease;
+}
+
+
+/* ── RESET ──────────────────────────────────────────────────
+   Elimina márgenes, paddings y box-sizing por defecto.
+   ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ============================================================
+   LAYOUT — Página, fondo y contenedor central
+   ============================================================ */
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}
+
+/* Fondo con gradientes radiales decorativos */
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%,  rgba(0, 119, 255, 0.1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 90%, rgba(var(--color-accent-rgb), 0.07) 0%, transparent 60%),
+    var(--color-bg);
+  padding: 24px 16px 48px;
+}
+
+/* Contenedor de ancho máximo centrado */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── Animaciones de entrada ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade { animation: fadeUp 0.6s ease both; }
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.15s; }
+.d3 { animation-delay: 0.25s; }
+.d4 { animation-delay: 0.35s; }
+.d5 { animation-delay: 0.45s; }
+.d6 { animation-delay: 0.55s; }
+
+/* Secciones: ocultas por defecto, visibles con .activa */
+.seccion { display: none; }
+.seccion.activa {
+  display: block;
+  animation: fadeUp 0.4s ease both;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding-top: 40px;
+  font-size: 12px;
+  color: var(--color-text-footer);
+}
+
+
+/* ============================================================
+   HEADER — Avatar, nombre, cargo y bio
+   ============================================================ */
+.header {
+  text-align: center;
+  padding: 40px 16px 32px;
+}
+
+/* Pulso sutil en el anillo del avatar */
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.2); }
+  50%       { box-shadow: 0 0 0 10px rgba(var(--color-accent-rgb), 0); }
+}
+
+.avatar-wrap {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--color-accent-rgb), 0.4);
+  padding: 3px;
+  margin: 0 auto 20px;
+  animation: pulse 3s ease-in-out infinite;
+  display: block;
+}
+
+.avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.nombre {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.cargo-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 16px;
+}
+
+.bio {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.bio strong {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   TABS — Navegación por pestañas
+   ============================================================ */
+.tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 32px 0 28px;
+}
+
+.tab-btn {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition), color var(--transition);
+}
+
+.tab-btn:hover {
+  border-color: rgba(var(--color-accent-rgb), 0.4);
+  color: #e2e8f0;
+}
+
+.tab-btn.active {
+  background: rgba(var(--color-accent-rgb), 0.12);
+  border-color: rgba(var(--color-accent-rgb), 0.5);
+  color: var(--color-accent);
+}
+
+
+/* ============================================================
+   CARDS — Tarjeta base, links y mini-cards
+   ============================================================ */
+
+/* ── Tarjeta genérica ── */
+.card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 28px;
+}
+
+.card h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+.card p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: var(--color-text-muted);
+}
+
+/* ── Grid de links (sección Inicio) ── */
+.links-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.link-card:hover {
+  background: rgba(var(--color-accent-rgb), 0.07);
+  border-color: var(--color-border-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(var(--color-accent-rgb), 0.1);
+}
+
+/* Lado izquierdo de cada link-card */
+.lc-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lc-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.lc-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.lc-desc {
+  font-size: 13px;
+  color: var(--color-text-faint);
+  margin-top: 3px;
+}
+
+/* Badge de categoría */
+.lc-tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-tag-bg);
+  border: 1px solid var(--color-tag-border);
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+/* ── Mini cards (sección Historia) ── */
+.grid3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.mini-card {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 20px;
+}
+
+.mini-card h3 {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.mini-card p {
+  font-size: 13px;
+  color: var(--color-text-faint);
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   TIMELINE — Trayectoria profesional con línea vertical
+   ============================================================ */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.tl-item {
+  position: relative;
+  padding-left: 22px;
+}
+
+/* Punto de la línea de tiempo */
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 8px rgba(var(--color-accent-rgb), 0.5);
+}
+
+/* Línea vertical que conecta puntos */
+.tl-item::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 17px;
+  width: 1px;
+  bottom: -24px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Omite la línea en el último elemento */
+.tl-item:last-child::after { display: none; }
+
+.tl-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.tl-role {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+/* Badge de año en la línea de tiempo */
+.tl-year {
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-tag-bg);
+  border: 1px solid var(--color-tag-border);
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.tl-detail {
+  font-size: 13px;
+  color: var(--color-text-faint);
+  line-height: 1.6;
+}
+
+
+/* ============================================================
+   SKILLS — Etiquetas de habilidades
+   ============================================================ */
+.skills-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill {
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-surface);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  cursor: default;
+}
+
+.skill:hover {
+  border-color: rgba(var(--color-accent-rgb), 0.4);
+  color: var(--color-accent);
+  background: var(--color-surface-accent);
+}
+
+
+/* ============================================================
+   CONTACTO — Lista de métodos de contacto
+   ============================================================ */
+.contacto-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contacto-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.contacto-item:hover {
+  border-color: var(--color-border-hover);
+  background: rgba(var(--color-accent-rgb), 0.07);
+}
+
+.contacto-item span:first-child { font-size: 20px; }
+
+
+/* ============================================================
+   RESPONSIVE — Ajustes para pantallas pequeñas
+   ============================================================ */
+@media (max-width: 480px) {
+  /* Reduce el tamaño del nombre en móvil */
+  .nombre { font-size: 1.8rem; }
+
+  /* Oculta el badge de categoría en tarjetas de enlace */
+  .lc-tag { display: none; }
+}
+
+
+/* ============================================================
+   HERO — Mejoras de nivel senior
+   Status badge, CTAs y métricas profesionales
+   ============================================================ */
+
+/* Badge de disponibilidad con pulso verde */
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+@keyframes pulse-green {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse-green 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── CTAs del hero ── */
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 24px 0 36px;
+}
+
+.cta-primary {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: #020617;
+  text-decoration: none;
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 0 24px rgba(var(--color-accent-rgb), 0.25);
+}
+
+.cta-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(var(--color-accent-rgb), 0.35);
+}
+
+.cta-secondary {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: border-color var(--transition), background var(--transition), transform var(--transition);
+}
+
+.cta-secondary:hover {
+  border-color: rgba(var(--color-accent-rgb), 0.4);
+  background: rgba(var(--color-accent-rgb), 0.06);
+  transform: translateY(-2px);
+}
+
+/* ── Métricas ── */
+.metricas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  padding: 20px 24px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  max-width: 560px;
+  margin: 0 auto;
+  row-gap: 16px;
+}
+
+.metrica-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0 24px;
+}
+
+.metrica-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.metrica-label {
+  font-size: 11px;
+  color: var(--color-text-faint);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.metrica-sep {
+  width: 1px;
+  height: 36px;
+  background: var(--color-border);
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   RECRUITER BANNER — CTA destacada para reclutadores
+   ============================================================ */
+.recruiter-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.25);
+  background: rgba(var(--color-accent-rgb), 0.05);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.recruiter-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.recruiter-icon { font-size: 22px; }
+
+.recruiter-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.recruiter-sub {
+  font-size: 12px;
+  color: var(--color-text-faint);
+  margin-top: 2px;
+}
+
+.recruiter-cta {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: #020617;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.recruiter-cta:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+
+/* ============================================================
+   PROYECTOS — Sección de proyectos destacados
+   ============================================================ */
+
+/* Banner "Actualmente construyendo" */
+.building-banner {
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  background: rgba(34, 197, 94, 0.04);
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+
+.building-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+@keyframes pulse-build {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+.building-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse-build 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.building-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #22c55e;
+}
+
+.building-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.building-desc {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.building-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Grid de tarjetas de proyectos */
+.proyectos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.proyecto-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 22px;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.proyecto-card:hover {
+  border-color: var(--color-border-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(var(--color-accent-rgb), 0.08);
+}
+
+.proyecto-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.proyecto-icon { font-size: 22px; }
+
+/* Badges de estado del proyecto */
+.proyecto-status {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.proyecto-status--live {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  color: #22c55e;
+}
+
+.proyecto-status--wip {
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  color: #fbbf24;
+}
+
+.proyecto-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.proyecto-desc {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text-faint);
+  margin-bottom: 14px;
+}
+
+.proyecto-stack { display: flex; flex-wrap: wrap; gap: 6px; }
+
+
+/* ============================================================
+   CONTACTO — Mejoras de CTA y card superior
+   ============================================================ */
+.contact-cta-card {
+  border-color: rgba(var(--color-accent-rgb), 0.2);
+  background: rgba(var(--color-accent-rgb), 0.04);
+  margin-bottom: 0;
+}
+
+.contact-cta-card h2 {
+  font-size: 1.5rem;
+}
+
+
+/* ============================================================
+   SKILLS — Categorías agrupadas
+   ============================================================ */
+.skills-category-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-bottom: 10px;
+}
+
+
+/* ============================================================
+   RESPONSIVE — Ampliaciones para nuevos componentes
+   ============================================================ */
+@media (max-width: 600px) {
+  .metricas { gap: 0; }
+  .metrica-sep { display: none; }
+  .metrica-item { padding: 8px 16px; }
+
+  .recruiter-banner { flex-direction: column; align-items: flex-start; }
+  .recruiter-cta { width: 100%; text-align: center; }
+
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .cta-primary, .cta-secondary { width: 100%; text-align: center; }
+
+  .proyectos-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ============================================================
+   TAB FEATURED — Resalta el tab de Ozama Chess
+   ============================================================ */
+.tab-btn--featured {
+  border-color: rgba(var(--color-accent-rgb), 0.3);
+  color: var(--color-accent);
+  background: rgba(var(--color-accent-rgb), 0.06);
+}
+
+.tab-btn--featured:hover,
+.tab-btn--featured.active {
+  background: rgba(var(--color-accent-rgb), 0.14);
+  border-color: rgba(var(--color-accent-rgb), 0.6);
+  color: var(--color-accent);
+}
+
+
+/* ============================================================
+   OZAMA CHESS — Sección premium del proyecto principal
+   ============================================================ */
+
+/* ── Hero card del proyecto ── */
+.ozama-hero {
+  position: relative;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.25);
+  background: rgba(var(--color-accent-rgb), 0.04);
+  padding: 32px 28px 28px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+/* Tablero decorativo de fondo */
+.ozama-hero-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.ozama-board-deco {
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  margin-right: -20px;
+  margin-top: -20px;
+}
+
+.ozama-hero-content { position: relative; z-index: 1; }
+
+/* Fila superior: ícono + títulos */
+.ozama-hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.ozama-icon-wrap {
+  font-size: 2.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 16px rgba(var(--color-accent-rgb), 0.4));
+}
+
+.ozama-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 4px;
+}
+
+.ozama-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.ozama-subtitle {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Texto de visión corta en el hero */
+.ozama-vision-text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+  max-width: 640px;
+  margin-bottom: 24px;
+}
+
+/* Métricas del club */
+.ozama-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  row-gap: 12px;
+}
+
+.ozama-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 20px 0 0;
+}
+
+.ozama-stat:first-child { padding-left: 0; }
+
+.ozama-stat-num {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  line-height: 1;
+}
+
+.ozama-stat-label {
+  font-size: 11px;
+  color: var(--color-text-faint);
+  letter-spacing: 0.03em;
+}
+
+.ozama-stat-sep {
+  width: 1px;
+  height: 32px;
+  background: var(--color-border);
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+/* CTAs del hero de Ozama */
+.ozama-ctas {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ozama-cta-gh {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+
+/* ── Dos columnas: Estado + Stack ── */
+.ozama-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* Card interna de Ozama (hereda .card) */
+.ozama-card { height: 100%; }
+
+.ozama-card-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+
+/* ── Lista de estado actual ── */
+.ozama-status-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ozama-status-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.ozama-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.ozama-status-dot--green  { background: #22c55e; box-shadow: 0 0 6px rgba(34, 197, 94, 0.5); }
+.ozama-status-dot--yellow { background: #fbbf24; box-shadow: 0 0 6px rgba(251, 191, 36, 0.4); }
+
+.ozama-status-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 2px;
+}
+
+.ozama-status-detail {
+  font-size: 12px;
+  color: var(--color-text-faint);
+}
+
+
+/* ── Stack tecnológico agrupado ── */
+.ozama-tech-group { margin-bottom: 14px; }
+.ozama-tech-group:last-child { margin-bottom: 0; }
+
+.ozama-tech-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin-bottom: 8px;
+}
+
+
+/* ── Roadmap ── */
+.ozama-roadmap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.ozama-road-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 20px;
+  position: relative;
+}
+
+.ozama-road-item:last-child { padding-bottom: 0; }
+
+/* Línea vertical del roadmap */
+.ozama-road-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 24px;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-border);
+}
+
+.ozama-road-marker {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Check completado */
+.ozama-road-item--done .ozama-road-marker {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.ozama-road-check {
+  font-size: 12px;
+  color: #22c55e;
+  font-weight: 700;
+}
+
+/* En curso — pulso */
+.ozama-road-item--active .ozama-road-marker {
+  background: rgba(var(--color-accent-rgb), 0.12);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.4);
+}
+
+@keyframes roadmap-pulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.3); opacity: 0.6; }
+}
+
+.ozama-road-pulse {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: roadmap-pulse 1.8s ease-in-out infinite;
+  display: block;
+}
+
+/* Pendiente */
+.ozama-road-item--pending .ozama-road-marker {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-border);
+}
+
+.ozama-road-dot-pending {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--color-text-faint);
+  display: block;
+}
+
+.ozama-road-content { padding-top: 2px; }
+
+.ozama-road-phase {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ozama-road-item--pending .ozama-road-phase { color: var(--color-text-faint); }
+
+.ozama-road-desc {
+  font-size: 13px;
+  color: var(--color-text-faint);
+  line-height: 1.65;
+}
+
+
+/* ── Card de visión ── */
+.ozama-vision-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-top: 14px;
+  padding: 24px 26px;
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-accent-rgb), 0.06) 0%,
+    rgba(0, 119, 255, 0.04) 100%
+  );
+}
+
+.ozama-vision-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(var(--color-accent-rgb), 0.35));
+}
+
+.ozama-vision-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 8px;
+}
+
+.ozama-vision-body {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text-muted);
+}
+
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .ozama-two-col { grid-template-columns: 1fr; }
+  .ozama-title { font-size: 1.6rem; }
+  .ozama-vision-card { flex-direction: column; gap: 12px; }
+  .ozama-stat-sep { display: none; }
+  .ozama-stat { padding-right: 16px; }
+  .ozama-board-deco { width: 140px; height: 140px; }
+}
+
+
+/* ============================================================
+   ANIMACIONES JS — Clases controladas por JavaScript
+   No modifica ningún estilo visual estático existente.
+   ============================================================ */
+
+/* ── Reveal al scroll ──────────────────────────────────────
+   Estado inicial: invisible y desplazado hacia abajo.
+   El JS añade .revealed cuando el elemento entra en viewport.
+   ─────────────────────────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity  0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto; /* Libera memoria GPU tras la animación */
+}
+
+/* Variante: slide desde la izquierda (usable con data-reveal="left") */
+.reveal[data-reveal="left"] {
+  transform: translateX(-20px);
+}
+.reveal[data-reveal="left"].revealed {
+  transform: translateX(0);
+}
+
+/* Variante: fade puro sin desplazamiento (para overlays) */
+.reveal[data-reveal="fade"] {
+  transform: none;
+}
+
+/* ── Ripple en skill pills ───────────────────────────────── */
+@keyframes skill-ripple {
+  from { transform: scale(0); opacity: 1; }
+  to   { transform: scale(1); opacity: 0; }
+}
+
+/* ── Optimización: desactiva will-change en hover tras reveal ── */
+.revealed:hover {
+  will-change: transform;
+}
+
+/* ── prefers-reduced-motion: desactiva todo sin JS ───────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ============================================================
+   AVATAR — Marco premium de doble anillo con gradiente
+   ============================================================ */
+
+/* Anillo exterior: gradiente azul/cyan con glow */
+.avatar-ring-outer {
+  width: 178px;
+  height: 178px;
+  border-radius: 50%;
+  padding: 3px;
+  margin: 0 auto 22px;
+  background: linear-gradient(135deg, #0077ff 0%, #22d3ee 50%, #0077ff 100%);
+  box-shadow:
+    0 0 0 1px rgba(0, 119, 255, 0.15),
+    0 0 28px rgba(34, 211, 238, 0.22),
+    0 0 60px rgba(0, 119, 255, 0.12);
+  animation: pulse 3s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Anillo interior: gap oscuro entre los dos aros */
+.avatar-ring-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  padding: 3px;
+  background: #020617;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Redefine el avatar-wrap para funcionar dentro del doble anillo */
+.avatar-ring-outer .avatar-wrap {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  margin: 0;
+  animation: none;
+  box-shadow: none;
+  display: block;
+}
+
+.avatar-ring-outer .avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+/* ── cargo-tag: ajuste para texto más largo ── */
+.cargo-tag {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* ── Responsive avatar ── */
+@media (max-width: 480px) {
+  .avatar-ring-outer {
+    width: 144px;
+    height: 144px;
+  }
+}
+
+/* ── Métricas: fix layout 4 columnas ── */
+.metricas {
+  flex-wrap: nowrap;
+  justify-content: center;
+  max-width: 640px;
+}
+
+.metrica-item {
+  flex: 1;
+  min-width: 0;
+  padding: 0 8px;
+}
+
+.metrica-label {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .metricas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+  .metrica-sep { display: none; }
+  .metrica-item { padding: 0; }
+  .metrica-label { white-space: normal; font-size: 10px; }
+}
